@@ -1,0 +1,35 @@
+.movie-nav {
+	width: 274px;
+	text-align: right;
+}
+
+.link_type_movies {
+	font-style: normal;
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.38;
+}
+
+.link_checked {
+	font-weight: 500;
+}
+
+.list_place_header {
+	margin: 0;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.list__item_place_header {
+	display: inline-block;
+}
+
+.list__item_place_header:first-of-type {
+	margin-right: 16px;
+}
+
+@media (max-width: 768px) {
+	.movie-nav {
+		display: none;
+	}
+}

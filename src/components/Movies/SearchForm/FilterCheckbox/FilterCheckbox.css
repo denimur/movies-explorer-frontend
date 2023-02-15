@@ -1,0 +1,65 @@
+.movie-filter {
+	display: inline-flex;
+	align-items: center;
+	margin: auto;
+}
+
+.movie-filter__label {
+	font-style: normal;
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.38;
+	cursor: pointer;
+}
+
+.movie-filter__checkbox {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.movie-filter__pseudo-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+  width: 36px;
+  height: 20px;
+	margin-right: 14px;
+	border-radius: 20px;
+	background-color: #343434;
+  position: relative;
+	transition: opacity .3s;
+}
+
+.movie-filter__pseudo-checkbox::after {
+	content: '';
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background-color: #ebebeb;
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	transition: left .3s;
+}
+
+.movie-filter__checkbox:checked + .movie-filter__pseudo-checkbox {
+	background-color: #2BE080;
+}
+
+.movie-filter__checkbox:checked ~ .movie-filter__pseudo-checkbox::after {
+	left: 18px;
+	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+	background-color: #FFF;
+}
+
+.movie-filter:hover .movie-filter__pseudo-checkbox {
+	opacity: .8;
+}
+
+@media (max-width: 767px) {
+	.movie-filter {
+		margin: 45px auto;
+	}
+}

@@ -1,0 +1,13 @@
+.form__fields_place_login {
+	padding-bottom: 21px;
+}
+
+.form__handlers_place_login {
+	padding-top: 179px;
+}
+
+@media (max-width: 456px) {
+	.form__handlers_place_login {
+		padding-top: 267px;
+	}
+}

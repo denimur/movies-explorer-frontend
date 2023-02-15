@@ -1,0 +1,125 @@
+.search {
+	padding: 70px 70px 10px;
+	min-height: 222px;
+	box-sizing: border-box;
+}
+
+.search__container {
+	margin-bottom: 69px;
+	display: flex;
+	align-items: center;
+	background-color: #fdfdfd;
+	box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
+	border-radius: 9px;
+}
+
+.search-form {
+	height: 72px;
+	width: calc(100% - 226px);
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-right: 19px;
+	box-sizing: border-box;
+}
+
+.search-form::before {
+	content: '';
+	width: 22px;
+	height: 22px;
+	position: absolute;
+	top: 25px;
+	left: 25px;
+	background: url(../../../images/search-icon-color-grey.svg) no-repeat center;
+}
+
+.search-form::after {
+	content: '';
+	height: calc(100% - 32px);
+	border-right: 1px solid #cbcbcb;
+	position: absolute;
+	right: 0;
+}
+
+.search-form__item {
+	background-color: #fdfdfd;
+	border: 0;
+	padding: 0;
+	height: 72px;
+	width: 60%;
+	margin-left: 64px;
+}
+
+.search-form__item:focus {
+	outline: none;
+}
+
+.search-form__item::-webkit-input-placeholder {
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.11;
+	color: #a0a0a0;
+}
+.search-form__item::-moz-placeholder {
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.11;
+	color: #a0a0a0;
+}
+.search-form__item::-ms-input-placeholder {
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.11;
+	color: #a0a0a0;
+}
+.search-form__item::placeholder {
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.11;
+	color: #a0a0a0;
+}
+
+@media (max-width: 874px) {
+	.search {
+		padding: 80px 30px 10px;
+	}
+}
+
+@media (max-width: 767px) {
+	.search {
+		padding: 80px 10px 10px;
+		min-height: 272px;
+	}
+	.search__container {
+		flex-direction: column;
+		background-color: #fff;
+		box-shadow: none;
+		border-radius: 0;
+		margin-bottom: 0;
+	}
+	.search-form {
+		width: 100%;
+		background-color: #fdfdfd;
+		box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
+		border-radius: 9px;
+		padding-left: 19px;
+	}
+	.search-form::after {
+		display: none;
+	}
+	.search-form::before {
+		display: none;
+	}
+	.search-form__item {
+		margin-left: 0;
+	}
+	.search-form__item::placeholder {
+		font-size: 14px;
+		line-height: 1.43;
+	}
+}

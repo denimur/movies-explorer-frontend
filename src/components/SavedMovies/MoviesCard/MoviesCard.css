@@ -1,0 +1,11 @@
+/*основные стили компонента в файле src\components\Movies\MoviesCard\MoviesCard.css */
+
+.card__delete-button {
+	opacity: 0;
+	background-image: url(../../../images/card-delete-btn.svg);
+	transition: opacity .3s;
+}
+
+.card:hover .card__delete-button {
+	opacity: 1;
+}
