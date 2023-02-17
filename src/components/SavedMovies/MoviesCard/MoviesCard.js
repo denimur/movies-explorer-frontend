@@ -9,7 +9,7 @@ function MoviesCard({ movie }) {
           className='card__button card__delete-button'
         ></button>
       </div>
-      <div className='section__line section__line_color_grey'></div>
+      <div className='section-line section-line_color_grey'></div>
       <p className='card__duration'>1ч42м</p>
     </article>
   );

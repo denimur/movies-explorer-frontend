@@ -20,7 +20,6 @@ function Porfolio() {
             />
           </a>
         </li>
-        <div className='section__line section__line_color_grey'></div>
         <li className='list__item list__item_place_portfolio'>
           <a
             className='portfolio__link'
@@ -36,7 +35,6 @@ function Porfolio() {
             />
           </a>
         </li>
-        <div className='section__line section__line_color_grey'></div>
         <li className='list__item list__item_place_portfolio'>
           <a
             className='portfolio__link'

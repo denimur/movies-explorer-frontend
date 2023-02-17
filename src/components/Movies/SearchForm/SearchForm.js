@@ -18,7 +18,7 @@ function SearchForm() {
         </form>
         <FilterCheckbox />
       </div>
-      <div className='section__line section__line_color_grey'></div>
+      <div className='section-line section-line_color_grey'></div>
     </section>
   );
 }

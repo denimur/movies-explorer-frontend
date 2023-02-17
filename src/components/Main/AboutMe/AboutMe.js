@@ -22,7 +22,7 @@ function AboutMe() {
   return (
     <section id='student' className='section about-me'>
       <h2 className='section__title'>Студент</h2>
-      <div className='section__line'></div>
+      <div className='section-line'></div>
       <div className='about-me__info'>
         <img className='about-me__foto' src={imagePath} alt='мое фото' />
         <h3 className='about-me__name'>Денис</h3>

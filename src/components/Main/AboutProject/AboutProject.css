@@ -51,7 +51,7 @@
 	margin: 0;
 }
 
-.time-bar__caption {
+.caption__text {
 	font-style: normal;
 	font-weight: 400;
 	font-size: 14px;
@@ -131,7 +131,7 @@
 	.time-bar__text {
 		font-size: 11px;
 	}
-	.time-bar__caption {
+	.caption__text {
 		font-size: 11px;
 	}
 }

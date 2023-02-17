@@ -9,7 +9,7 @@ function MoviesCard({ link, title }) {
           className='card__button card__like-button_active'
         ></button>
       </div>
-      <div className='section__line section__line_color_grey'></div>
+      <div className='section-line section-line_color_grey'></div>
       <p className='card__duration'>1ч42м</p>
     </article>
   );

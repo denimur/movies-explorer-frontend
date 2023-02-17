@@ -4,7 +4,7 @@ function Footer() {
       <p className='footer__text'>
         Учебный проект Яндекс.Практикум х BeatFilm.
       </p>
-      <div className='section__line section__line_color_grey'></div>
+      <div className='section-line section-line_color_grey'></div>
       <div className='footer__group'>
         <span className='footer__copyright'>
           &copy;{new Date().getFullYear()}

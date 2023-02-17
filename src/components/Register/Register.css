@@ -29,9 +29,12 @@
 .form__label {
 	display: block;
 	font-style: normal;
+}
+
+.form__label_place_register {
 	font-weight: 400;
 	font-size: 10px;
-	line-height: 12px;
+	line-height: 1.2;
 	color: #A0A0A0;
 	margin-bottom: 5px;
 }
@@ -39,6 +42,9 @@
 .form__input {
 	border: 0;
 	padding: 0;
+}
+
+.form__input_place_register {
 	width: 100%;
 	margin-bottom: 10px;
 	font-style: normal;
@@ -49,6 +55,10 @@
 
 .form__input:focus {
 	outline: none;
+}
+
+.form__input:focus + .section-line_color_grey {
+	background-color: #2be080;
 }
 
 .form__input-error {

@@ -10,7 +10,7 @@ function ProfileNavTab({ className, setIsMenuOpened }) {
     >
       Аккаунт
       <div className='icon'>
-        <img src={iconPath} className='icon__content' />
+        <img src={iconPath} className='icon__content' alt=' ' />
       </div>
     </Link>
   );

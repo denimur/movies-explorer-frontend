@@ -9,7 +9,7 @@ function Main({ setWithHeader, setWithFooter }) {
   useEffect(() => {
     setWithHeader(true);
     setWithFooter(true);
-  }, []);
+  }, [setWithHeader, setWithFooter]);
 
   return (
     <main className='content'>

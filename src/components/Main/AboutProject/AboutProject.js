@@ -2,7 +2,7 @@ const AboutProject = () => {
   return (
     <section id='about' className='section about-project'>
       <h2 className='section__title'>О проекте</h2>
-      <div className='section__line'></div>
+      <div className='section-line'></div>
       <ul className='table'>
         <li className='table__cell'>
           <h3 className='about-project__title'>
@@ -31,9 +31,9 @@ const AboutProject = () => {
           <p className='time-bar__text'>4 недели</p>
         </li>
       </ul>
-      <div className='time-bar__group grid-wrapper'>
-        <p className='time-bar__caption'>Back-end</p>
-        <p className='time-bar__caption'>Front-end</p>
+      <div className='caption grid-wrapper'>
+        <p className='caption__text'>Back-end</p>
+        <p className='caption__text'>Front-end</p>
       </div>
     </section>
   );

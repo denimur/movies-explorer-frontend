@@ -6,37 +6,41 @@ function Register({ setWithHeader, setWithFooter }) {
   useEffect(() => {
     setWithHeader(false);
     setWithFooter(false);
-  }, []);
+  }, [setWithHeader, setWithFooter]);
   return (
     <section className='auth'>
       <Logo />
       <h1 className='auth__greeting'>Добро пожаловать!</h1>
       <form className='form'>
         <fieldset className='form__fields form__fields_place_register'>
-          <label className='form__label'>Имя</label>
+          <label className='form__label form__label_place_register'>Имя</label>
           <input
-            className='form__input'
+            className='form__input form__input_place_register'
             type='text'
             placeholder=''
             defaultValue='Денис'
           />
-          <div className='section__line section__line_color_grey'></div>
+          <div className='section-line section-line_color_grey'></div>
           <span className='form__input-error name-error'></span>
-          <label className='form__label'>E-mail</label>
+          <label className='form__label form__label_place_register'>
+            E-mail
+          </label>
           <input
-            className='form__input'
+            className='form__input form__input_place_register'
             type='email'
             defaultValue='pochta@yandex.ru'
           />
-          <div className='section__line section__line_color_grey'></div>
+          <div className='section-line section-line_color_grey'></div>
           <span className='form__input-error email-error'></span>
-          <label className='form__label'>Пароль</label>
+          <label className='form__label form__label_place_register'>
+            Пароль
+          </label>
           <input
-            className='form__input'
+            className='form__input form__input_place_register'
             type='password'
             defaultValue='123456789'
           />
-          <div className='section__line section__line_color_grey'></div>
+          <div className='section-line section-line_color_grey'></div>
           <span className='form__input-error password-error'>
             Что-то пошло не так...
           </span>

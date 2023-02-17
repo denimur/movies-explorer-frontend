@@ -2,6 +2,23 @@
 	padding-bottom: 21px;
 }
 
+.form__label_place_login {
+	font-weight: 400;
+	font-size: 10px;
+	line-height: 1.2;
+	color: #A0A0A0;
+	margin-bottom: 5px;
+}
+
+.form__input_place_login {
+	width: 100%;
+	margin-bottom: 10px;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.21;
+}
+
 .form__handlers_place_login {
 	padding-top: 179px;
 }
