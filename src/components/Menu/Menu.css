@@ -1,0 +1,26 @@
+.menu {
+	width: 44px;
+	height: 44px;
+	box-sizing: border-box;
+	padding: 11px 8px 10px;
+	cursor: pointer;
+	display: none;
+	border: none;
+	background-color: transparent;
+}
+
+.menu__item {
+	width: 100%;
+	border-bottom: 3px solid #000;
+	margin-bottom: 7px;
+}
+
+.menu__item:last-of-type {
+	margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+	.menu {
+		display: block;
+	}
+}

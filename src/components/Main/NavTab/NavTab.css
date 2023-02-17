@@ -1,0 +1,57 @@
+.nav {
+	margin: auto auto 30px;
+}
+
+.list_place_promo {
+	display: flex;
+	width: max-content;
+  margin: 0;
+	gap: 20px;
+}
+
+.list__item_place_promo {
+	width: 96px;
+	height: 36px;
+	margin: 0;
+	background-color: #E8E8E8;
+	border-radius: 10px;
+	transition: opacity .3s;
+}
+
+.list__item_place_promo:hover {
+	opacity: .8;
+}
+
+.promo__link {
+	text-decoration: none;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 1.33;
+	color: #000;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@media (max-width: 767px) {
+	.nav {
+		margin-bottom: 17px;
+	}
+
+	.list_place_promo {
+		gap: 6px;
+	}
+	
+	.list__item_place_promo {
+		width: 82px;
+		height: 26px;
+		border-radius: 6px;
+	}
+
+	.promo__link {
+		font-size: 10px;
+		line-height: 1.6;
+	}
+}
