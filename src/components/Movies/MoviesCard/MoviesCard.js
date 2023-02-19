@@ -1,7 +1,26 @@
-function MoviesCard({ link, title }) {
+import { moviesApi } from '../../../utils/MoviesApi';
+
+function MoviesCard({ image, title, duration, trailerLink }) {
+  const formatDuration =
+    duration >= 120
+      ? `2ч ${duration - 120}м`
+      : duration >= 60
+      ? `1ч ${duration - 60}м`
+      : `${duration} мин`;
   return (
     <article className='card'>
-      <img src={link} className='card__image' alt={title} />
+      <a
+        className='card__link'
+        href={trailerLink}
+        target='_blank'
+        rel='noreferrer'
+      >
+        <img
+          src={`${moviesApi._url}${image.url}`}
+          className='card__image'
+          alt={title}
+        />
+      </a>
       <div className='card-group'>
         <h2 className='card__title'>{title}</h2>
         <button
@@ -10,7 +29,7 @@ function MoviesCard({ link, title }) {
         ></button>
       </div>
       <div className='section-line section-line_color_grey'></div>
-      <p className='card__duration'>1ч42м</p>
+      <p className='card__duration'>{formatDuration}</p>
     </article>
   );
 }

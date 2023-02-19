@@ -1,7 +1,9 @@
-function More() {
+function More({ onLoadMore }) {
   return (
     <section className='more'>
-      <button className='more__button'>Ещё</button>
+      <button className='more__button' onClick={onLoadMore}>
+        Ещё
+      </button>
     </section>
   );
 }

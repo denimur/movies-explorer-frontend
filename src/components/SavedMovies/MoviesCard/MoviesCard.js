@@ -10,7 +10,7 @@ function MoviesCard({ movie }) {
         ></button>
       </div>
       <div className='section-line section-line_color_grey'></div>
-      <p className='card__duration'>1ч42м</p>
+      <p className='card__duration'>1ч 42м</p>
     </article>
   );
 }
