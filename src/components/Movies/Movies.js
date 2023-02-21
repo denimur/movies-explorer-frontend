@@ -2,10 +2,15 @@ import SearchForm from './SearchForm/SearchForm';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import More from './More/More';
 import { useEffect, useState } from 'react';
+import { moviesApi } from '../../utils/MoviesApi';
 
-function Movies({ setIsLoggedIn, setWithFooter, movies }) {
-  const [count, setCount] = useState(0);
+function Movies({ setWithHeader, setWithFooter, isLoggedIn }) {
+  const [count, setCount] = useState(16);
+  const [movies, setMovies] = useState([]);
   const [cards, setCards] = useState([]);
+  const notEmpty = cards.length < movies.length;
+  console.log(cards.length < movies.length, cards.length, movies.length);
+  console.log(movies);
 
   function handleLoadMore() {
     setCards([...cards, ...movies.slice(count, count + 4)]);
@@ -13,20 +18,27 @@ function Movies({ setIsLoggedIn, setWithFooter, movies }) {
   }
 
   useEffect(() => {
-    setIsLoggedIn(true);
-    setWithFooter(true);
-  }, [setIsLoggedIn, setWithFooter]);
+    if (isLoggedIn) {
+      moviesApi
+        .getMovies()
+        .then((movies) => {
+          setMovies(movies.slice(0, 20));
+          setCards(movies.slice(0, 16));
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
-    setCards([...movies.slice(count, count + 16)]);
-    setCount((count) => count + 16);
-  }, [count, movies]);
+    setWithHeader(true);
+    setWithFooter(true);
+  }, [setWithHeader, setWithFooter]);
 
   return (
     <main className='movies'>
       <SearchForm />
       <MoviesCardList cards={cards} />
-      <More onLoadMore={handleLoadMore} />
+      <More notEmpty={notEmpty} onLoadMore={handleLoadMore} />
     </main>
   );
 }
