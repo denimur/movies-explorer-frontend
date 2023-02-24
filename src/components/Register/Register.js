@@ -1,39 +1,37 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Logo from './../Logo/Logo';
+import { useFormWithValidation } from '../FormValidator/FormValidator';
 
-function Register({ setWithHeader, setWithFooter, onRegister }) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+function Register({
+  setWithHeader,
+  setWithFooter,
+  onRegister,
+  errorMessage,
+  setErrorMessage,
+}) {
+  const { values, errors, isValid, resetForm, handleChange } =
+    useFormWithValidation();
+  const name = values.name;
+  const email = values.email;
+  const password = values.password;
+  const submitErrorClassName = `form__submit-error form__submit-error_${
+    errorMessage ? 'active' : 'disabled'
+  }`;
 
   useEffect(() => {
     setWithHeader(false);
     setWithFooter(false);
-    setName('');
-    setEmail('');
-    setPassword('');
-  }, [setWithHeader, setWithFooter]);
-
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleChangeEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleChangePassword(e) {
-    setPassword(e.target.value);
-  }
+    setErrorMessage('');
+  }, [setWithHeader, setWithFooter, setErrorMessage]);
 
   function handleSubmit(e) {
     e.preventDefault();
-
     if (!name || !email || !password) {
       return;
     }
     onRegister(name, email, password);
+    resetForm();
   }
 
   return (
@@ -46,39 +44,65 @@ function Register({ setWithHeader, setWithFooter, onRegister }) {
           <input
             className='form__input form__input_place_register'
             type='text'
-            placeholder=''
-            value={name}
-            onChange={handleChangeName}
+            name='name'
+            minLength={2}
+            onChange={handleChange}
+            required
           />
-          <div className='section-line section-line_color_grey'></div>
-          <span className='form__input-error name-error'></span>
+          <div
+            className={`section-line section-line_color_${
+              errors['name'] ? 'pink' : 'grey'
+            }`}
+          ></div>
+          <span className='form__input-error name-error'>
+            {isValid ? '' : errors['name']}
+          </span>
           <label className='form__label form__label_place_register'>
             E-mail
           </label>
           <input
             className='form__input form__input_place_register'
             type='email'
-            value={email}
-            onChange={handleChangeEmail}
+            name='email'
+            onChange={handleChange}
+            required
           />
-          <div className='section-line section-line_color_grey'></div>
-          <span className='form__input-error email-error'></span>
+          <div
+            className={`section-line section-line_color_${
+              errors['email'] ? 'pink' : 'grey'
+            }`}
+          ></div>
+          <span className='form__input-error email-error'>
+            {isValid ? '' : errors['email']}
+          </span>
           <label className='form__label form__label_place_register'>
             Пароль
           </label>
           <input
             className='form__input form__input_place_register'
             type='password'
-            value={password}
-            onChange={handleChangePassword}
+            name='password'
+            onChange={handleChange}
+            minLength={3}
+            required
           />
-          <div className='section-line section-line_color_grey'></div>
-          <span className='form__input-error password-error'></span>
+          <div
+            className={`section-line section-line_color_${
+              errors['password'] ? 'pink' : 'grey'
+            }`}
+          ></div>
+          <span className='form__input-error password-error'>
+            {isValid ? '' : errors['password']}
+          </span>
         </fieldset>
         <fieldset className='form__handlers form__handlers_place_register'>
+          <p className={submitErrorClassName}>{errorMessage}</p>
           <button
-            className='form__button form__button_type_submit'
+            className={`form__button form__button_type_submit ${
+              !isValid ? 'form__button_type_submit_disabled' : ''
+            }`}
             type='submit'
+            disabled={isValid ? false : true}
           >
             Зарегистрироваться
           </button>

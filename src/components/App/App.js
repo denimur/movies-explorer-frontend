@@ -18,9 +18,12 @@ import Navigation from '../Navigation/Navigation';
 import AuthNavTab from '../AuthNavTab/AuthNavTab';
 import { CurrentUserContext } from './../../contexts/CurrentUserContext';
 import * as mainApi from '../../utils/MainApi';
+import { getAuthMessage } from './../../utils/ErrorMessages';
 
 function App() {
-  const [isRegistered, setIsRegistered] = useState(false);
+  // const [isRegistered, setIsRegistered] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isFailTooltipOpen, setIsFailTooltipOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [withHeader, setWithHeader] = useState(true);
   const [withFooter, setWithFooter] = useState(true);
@@ -32,10 +35,9 @@ function App() {
     mainApi
       .getCurrentUser()
       .then((user) => {
-        user && setIsLoggedIn(true);
+        setIsLoggedIn(true);
         navigateTo('/movies');
         setCurrentUser(user);
-        console.log(user.name, user.email);
       })
       .catch((err) => {
         navigateTo('/');
@@ -51,13 +53,12 @@ function App() {
     mainApi
       .register({ name, email, password })
       .then((res) => {
-        if (res) {
-          setIsRegistered(true);
-          handleLogin(email, password);
-        }
+        // setIsRegistered(true);
+        handleLogin(email, password);
+        console.log(res);
       })
       .catch((err) => {
-        // setIsFailTooltipOpen(true);
+        setErrorMessage(getAuthMessage(err));
         console.log(err);
       });
   }
@@ -71,7 +72,8 @@ function App() {
         navigateTo('/movies');
       })
       .catch((err) => {
-        // setIsFailTooltipOpen(true);
+        setErrorMessage(getAuthMessage(err));
+        setIsFailTooltipOpen(true);
         console.log(err);
       });
   }
@@ -88,29 +90,29 @@ function App() {
   }
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
-      <div className='page__container'>
-        {withHeader && (
-          <Header>
-            {isLoggedIn ? (
-              <>
-                <MovieNavTab />
-                <ProfileNavTab
-                  className={'link_type_account'}
-                  setIsMenuOpened={setIsMenuOpened}
-                />
-                <Menu onMenuClick={handleMenuClick} />
-              </>
-            ) : (
-              <AuthNavTab />
-            )}
-            <Navigation
-              isMenuOpened={isMenuOpened}
-              setIsMenuOpened={setIsMenuOpened}
-              onCloseBtnClick={handleMenuClick}
-            />
-          </Header>
-        )}
+    <div className='page__container'>
+      {withHeader && (
+        <Header>
+          {isLoggedIn ? (
+            <>
+              <MovieNavTab />
+              <ProfileNavTab
+                className={'link_type_account'}
+                setIsMenuOpened={setIsMenuOpened}
+              />
+              <Menu onMenuClick={handleMenuClick} />
+            </>
+          ) : (
+            <AuthNavTab />
+          )}
+          <Navigation
+            isMenuOpened={isMenuOpened}
+            setIsMenuOpened={setIsMenuOpened}
+            onCloseBtnClick={handleMenuClick}
+          />
+        </Header>
+      )}
+      <CurrentUserContext.Provider value={currentUser}>
         <Routes>
           <Route
             path='/*'
@@ -128,6 +130,10 @@ function App() {
                 setWithFooter={setWithFooter}
                 setWithHeader={setWithHeader}
                 onLogin={handleLogin}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+                isFailTooltipOpen={isFailTooltipOpen}
+                setIsFailTooltipOpen={setIsFailTooltipOpen}
               />
             }
           />
@@ -138,6 +144,10 @@ function App() {
                 setWithFooter={setWithFooter}
                 setWithHeader={setWithHeader}
                 onRegister={handleRegister}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+                isFailTooltipOpen={isFailTooltipOpen}
+                setIsFailTooltipOpen={setIsFailTooltipOpen}
               />
             }
           />
@@ -186,9 +196,9 @@ function App() {
             }
           />
         </Routes>
-        {withFooter && <Footer />}
-      </div>
-    </CurrentUserContext.Provider>
+      </CurrentUserContext.Provider>
+      {withFooter && <Footer />}
+    </div>
   );
 }
 

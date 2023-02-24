@@ -1,37 +1,36 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Logo from './../Logo/Logo';
+import { useFormWithValidation } from '../FormValidator/FormValidator.js';
 
-function Login({ setWithHeader, setWithFooter, onLogin }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  useEffect(() => {
-    setEmail('');
-    setPassword('');
-  }, []);
+function Login({
+  setWithHeader,
+  setWithFooter,
+  onLogin,
+  errorMessage,
+  setErrorMessage,
+}) {
+  const { values, errors, isValid, resetForm, handleChange } =
+    useFormWithValidation();
+  const submitErrorClassName = `form__submit-error form__submit-error_${
+    errorMessage ? 'active' : 'disabled'
+  }`;
 
   useEffect(() => {
     setWithHeader(false);
     setWithFooter(false);
-  }, [setWithHeader, setWithFooter]);
-
-  function handleChangeEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleChangePassword(e) {
-    setPassword(e.target.value);
-  }
+    setErrorMessage('');
+  }, [setWithHeader, setWithFooter, setErrorMessage]);
 
   function handleSubmit(e) {
     e.preventDefault();
     console.log('submit');
 
-    if (!email || !password) {
+    if (!values.email || !values.password) {
       return;
     }
-    onLogin(email, password);
+    onLogin(values.email, values.password);
+    resetForm();
   }
 
   return (
@@ -48,13 +47,20 @@ function Login({ setWithHeader, setWithFooter, onLogin }) {
           </label>
           <input
             id='email'
+            name='email'
             className='form__input form__input_place_login'
             type='email'
-            value={email}
-            onChange={handleChangeEmail}
+            onInput={handleChange}
+            required
           />
-          <div className='section-line section-line_color_grey'></div>
-          <span className='form__input-error email-error'></span>
+          <div
+            className={`section-line section-line_color_${
+              errors['email'] ? 'pink' : 'grey'
+            }`}
+          ></div>
+          <span className='form__input-error email-error'>
+            {isValid ? '' : errors['email']}
+          </span>
           <label
             htmlFor='password'
             className='form__label form__label_place_login'
@@ -63,18 +69,30 @@ function Login({ setWithHeader, setWithFooter, onLogin }) {
           </label>
           <input
             id='password'
+            name='password'
             className='form__input form__input_place_login'
             type='password'
-            value={password}
-            onChange={handleChangePassword}
+            onChange={handleChange}
+            minLength={3}
+            required
           />
-          <div className='section-line section-line_color_grey'></div>
-          <span className='form__input-error password-error'></span>
+          <div
+            className={`section-line section-line_color_${
+              errors['password'] ? 'pink' : 'grey'
+            }`}
+          ></div>
+          <span className='form__input-error password-error'>
+            {isValid ? '' : errors['password']}
+          </span>
         </fieldset>
         <fieldset className='form__handlers form__handlers_place_login'>
+          <p className={submitErrorClassName}>{errorMessage}</p>
           <button
-            className='form__button form__button_type_submit'
+            className={`form__button form__button_type_submit ${
+              !isValid ? 'form__button_type_submit_disabled' : ''
+            }`}
             type='submit'
+            disabled={isValid ? false : true}
           >
             Войти
           </button>
