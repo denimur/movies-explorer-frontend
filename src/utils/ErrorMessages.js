@@ -3,10 +3,10 @@ export function getAuthMessage(err) {
   const status = err.slice(-3);
   switch (status) {
     case '400':
-      message = 'Вы ввели неправильный логин или пароль.';
+      message = 'При авторизации произошла ошибка.';
       break;
     case '401':
-      message = 'При авторизации произошла ошибка.';
+      message = 'Вы ввели неправильный логин или пароль.';
       break;
     case '409':
       message = 'Пользователь с таким email уже существует.';

@@ -9,8 +9,8 @@ function Movies({ setWithHeader, setWithFooter, isLoggedIn }) {
   const [movies, setMovies] = useState([]);
   const [cards, setCards] = useState([]);
   const notEmpty = cards.length < movies.length;
-  console.log(cards.length < movies.length, cards.length, movies.length);
-  console.log(movies);
+  // console.log(cards.length < movies.length, cards.length, movies.length);
+  // console.log(movies);
 
   function handleLoadMore() {
     setCards([...cards, ...movies.slice(count, count + 4)]);

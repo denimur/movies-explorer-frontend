@@ -9,7 +9,7 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 // });
 
 function MoviesCardList({ cards }) {
-  console.log(cards);
+  // console.log(cards);
   return (
     <section className='cards'>
       {cards.map((card) => (

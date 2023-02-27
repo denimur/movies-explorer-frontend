@@ -1,12 +1,41 @@
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { CurrentUserContext } from './../../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup/EditProfilePopup';
+import { useFormWithValidation } from '../FormValidator/FormValidator';
 
-// const name = 'Денис';
-// const email = 'pochta@yandex.ru';
+function Profile({ setWithFooter, onLogout, onUpdate }) {
+  const user = useContext(CurrentUserContext);
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const { values, errors, isValid, resetForm, handleChange } =
+    useFormWithValidation();
 
-function Profile({ setWithFooter, user, onLogout }) {
   useEffect(() => {
     setWithFooter(false);
   }, [setWithFooter]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(values);
+    if (values.name !== user.name || values.email !== user.email) {
+      onUpdate(values.name, values.email);
+      closePopup();
+    } else {
+      closePopup();
+      return;
+    }
+  }
+
+  function openPopup() {
+    values.name = user.name;
+    values.email = user.email;
+    setIsEditPopupOpen(true);
+  }
+
+  function closePopup() {
+    resetForm();
+    setIsEditPopupOpen(false);
+  }
+
   return (
     <section className='profile'>
       <h1 className='profile__greeting'>Привет, {user.name}!</h1>
@@ -23,10 +52,22 @@ function Profile({ setWithFooter, user, onLogout }) {
           </li>
         </ul>
       </div>
-      <button className='profile__button'>Редактировать</button>
+      <button className='profile__button' onClick={openPopup}>
+        Редактировать
+      </button>
       <button className='profile__button' onClick={onLogout}>
         Выйти из аккаунта
       </button>
+      <EditProfilePopup
+        isOpen={isEditPopupOpen}
+        onUpdate={onUpdate}
+        onClose={closePopup}
+        onSubmit={handleSubmit}
+        errors={errors}
+        isValid={isValid}
+        handleChange={handleChange}
+        values={values}
+      />
     </section>
   );
 }

@@ -49,6 +49,20 @@ export const getCurrentUser = () => {
   }).then((res) => getResponseData(res));
 };
 
+export function editUserInfo({ name, email }) {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      email,
+    }),
+  }).then((res) => getResponseData(res));
+}
+
 export function saveMovie() {
   return fetch(`${BASE_URL}/movies`, {
     method: 'POST',

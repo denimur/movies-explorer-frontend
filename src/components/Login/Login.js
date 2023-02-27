@@ -20,17 +20,16 @@ function Login({
     setWithHeader(false);
     setWithFooter(false);
     setErrorMessage('');
+    resetForm();
   }, [setWithHeader, setWithFooter, setErrorMessage]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log('submit');
 
     if (!values.email || !values.password) {
       return;
     }
     onLogin(values.email, values.password);
-    resetForm();
   }
 
   return (

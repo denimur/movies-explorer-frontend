@@ -22,8 +22,14 @@
 	padding-bottom: 59px;
 }
 
+.form__handlers {
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
 .form__handlers_place_register {
-	padding-top: 69px;
+	padding-top: 11px;
 }
 
 .form__label {
@@ -94,15 +100,6 @@
 
 .form__input-error:last-of-type {
 	padding-bottom: 0;
-}
-
-.form__handlers {
-	/* outline: 1px solid red; */
-	width: 100%;
-	border: 0;
-	padding: 11px 0 0;
-	margin: 0;
-	display: block;
 }
 
 .form__button_type_submit {

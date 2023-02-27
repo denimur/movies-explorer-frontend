@@ -19,28 +19,29 @@ import AuthNavTab from '../AuthNavTab/AuthNavTab';
 import { CurrentUserContext } from './../../contexts/CurrentUserContext';
 import * as mainApi from '../../utils/MainApi';
 import { getAuthMessage } from './../../utils/ErrorMessages';
+import Tooltip from '../Tooltip/Tooltip';
 
 function App() {
   // const [isRegistered, setIsRegistered] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [isFailTooltipOpen, setIsFailTooltipOpen] = useState(false);
+  const [isSuccessTooltipOpen, setIsSuccessTooltipOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [withHeader, setWithHeader] = useState(true);
   const [withFooter, setWithFooter] = useState(true);
   const [currentUser, setCurrentUser] = useState({});
   let [isMenuOpened, setIsMenuOpened] = useState(false);
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     mainApi
       .getCurrentUser()
       .then((user) => {
         setIsLoggedIn(true);
-        navigateTo('/movies');
+        navigate('/movies');
         setCurrentUser(user);
       })
       .catch((err) => {
-        navigateTo('/');
         console.log(err);
       });
   }, []);
@@ -69,12 +70,10 @@ function App() {
       .then((user) => {
         setIsLoggedIn(true);
         setCurrentUser(user);
-        navigateTo('/movies');
+        navigate('/movies');
       })
       .catch((err) => {
         setErrorMessage(getAuthMessage(err));
-        setIsFailTooltipOpen(true);
-        console.log(err);
       });
   }
 
@@ -84,35 +83,50 @@ function App() {
       .then(() => {
         setIsLoggedIn(false);
         setCurrentUser({});
-        navigateTo('/');
+        navigate('/');
       })
       .catch((err) => console.log(err));
   }
 
+  function handleUpdateProfile(name, email) {
+    mainApi
+      .editUserInfo({ name, email })
+      .then((user) => {
+        setCurrentUser(user);
+        setIsSuccessTooltipOpen(true);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function closeTooltip() {
+    setIsFailTooltipOpen(false);
+    setIsSuccessTooltipOpen(false);
+  }
+
   return (
-    <div className='page__container'>
-      {withHeader && (
-        <Header>
-          {isLoggedIn ? (
-            <>
-              <MovieNavTab />
-              <ProfileNavTab
-                className={'link_type_account'}
-                setIsMenuOpened={setIsMenuOpened}
-              />
-              <Menu onMenuClick={handleMenuClick} />
-            </>
-          ) : (
-            <AuthNavTab />
-          )}
-          <Navigation
-            isMenuOpened={isMenuOpened}
-            setIsMenuOpened={setIsMenuOpened}
-            onCloseBtnClick={handleMenuClick}
-          />
-        </Header>
-      )}
-      <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className='page__container'>
+        {withHeader && (
+          <Header>
+            {isLoggedIn ? (
+              <>
+                <MovieNavTab />
+                <ProfileNavTab
+                  className={'link_type_account'}
+                  setIsMenuOpened={setIsMenuOpened}
+                />
+                <Menu onMenuClick={handleMenuClick} />
+              </>
+            ) : (
+              <AuthNavTab />
+            )}
+            <Navigation
+              isMenuOpened={isMenuOpened}
+              setIsMenuOpened={setIsMenuOpened}
+              onCloseBtnClick={handleMenuClick}
+            />
+          </Header>
+        )}
         <Routes>
           <Route
             path='/*'
@@ -191,14 +205,27 @@ function App() {
                   setWithFooter={setWithFooter}
                   onLogout={handleLogout}
                   user={currentUser}
+                  onUpdate={handleUpdateProfile}
                 />
               </ProtectedRouteElement>
             }
           />
         </Routes>
-      </CurrentUserContext.Provider>
-      {withFooter && <Footer />}
-    </div>
+        {withFooter && <Footer />}
+        <Tooltip
+          success={true}
+          isOpen={isSuccessTooltipOpen}
+          onClose={closeTooltip}
+          text='Данные успешно обновлены'
+        />
+        <Tooltip
+          success={false}
+          isOpen={isFailTooltipOpen}
+          onClose={closeTooltip}
+          text='Что-то пошло не так'
+        />
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

@@ -28,6 +28,7 @@
 @import url(./components/Register/Register.css);
 @import url(./components/Login/Login.css);
 @import url(./components/Profile/Profile.css);
+@import url(./components/Profile/EditProfilePopup/EditProfilePopup.css);
 
 @import url(./components/NotFound/NotFound.css);
 @import url(./components/Menu/Menu.css);
