@@ -1,6 +1,6 @@
-function More({ onLoadMore, notEmpty }) {
+function More({ onLoadMore, isEmpty }) {
   const btnClassName = `more__button ${
-    notEmpty ? '' : 'more__button_disabled'
+    !isEmpty ? '' : 'more__button_disabled'
   }`;
 
   return (

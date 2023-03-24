@@ -1,17 +1,65 @@
 import MoviesCardList from './MoviesCardList/MoviesCardList';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import SavedDevider from './SavedDevider/SavedDevider';
 import SearchForm from '../Movies/SearchForm/SearchForm';
+import { getFilteredData } from '../../utils/Helper';
+import NothingFoundTooltip from '../NothingFoundTooltip/NothingFoundTooltip';
 
-function SavedMovies({ setIsLoggedIn, setWithFooter }) {
+function SavedMovies({
+  setIsLoggedIn,
+  setWithFooter,
+  savedMovies,
+  setSavedMovies,
+  onDeleteMovie,
+  isMovieShort,
+  setIsMovieShort,
+}) {
+  const [keyword, setKeyword] = useState('');
+  const [isNothingFound, setIsNothingFound] = useState(false);
+  const [isKeywordTooltipOpened, setIsKeywordTooltipOpened] = useState(false);
+
   useEffect(() => {
     setIsLoggedIn(true);
     setWithFooter(true);
-  }, [setIsLoggedIn, setWithFooter]);
+    setSavedMovies(JSON.parse(localStorage.getItem('saved-movies')) || []);
+  }, []);
+
+  function handleChangeCheckbox(e) {
+    setIsMovieShort(e.target.checked);
+  }
+
+  function handleChangeKeyWord(e) {
+    setKeyword(e.target.value);
+  }
+
+  function handleSubmitSearchForm(e) {
+    e.preventDefault();
+    const savedMovies = JSON.parse(localStorage.getItem('saved-movies')) || [];
+    if (keyword) {
+      setIsNothingFound(false);
+      const data = getFilteredData(savedMovies, keyword, isMovieShort);
+      data.length === 0 && setIsNothingFound(true);
+
+      setSavedMovies(data);
+    } else {
+      setIsKeywordTooltipOpened(true);
+      setTimeout(() => {
+        setIsKeywordTooltipOpened(false);
+      }, 2000);
+    }
+  }
   return (
     <section className='saved-movies'>
-      <SearchForm />
-      <MoviesCardList />
+      <SearchForm
+        onChangeCheckbox={handleChangeCheckbox}
+        keyword={keyword}
+        setKeyword={setKeyword}
+        onChangeKeyword={handleChangeKeyWord}
+        onSubmitForm={handleSubmitSearchForm}
+        isKeywordTooltipOpened={isKeywordTooltipOpened}
+      />
+      {isNothingFound && <NothingFoundTooltip />}
+      <MoviesCardList movies={savedMovies} onDeleteMovie={onDeleteMovie} />
       <SavedDevider />
     </section>
   );

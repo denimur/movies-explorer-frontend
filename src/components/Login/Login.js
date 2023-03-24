@@ -3,13 +3,7 @@ import { useEffect } from 'react';
 import Logo from './../Logo/Logo';
 import { useFormWithValidation } from '../FormValidator/FormValidator.js';
 
-function Login({
-  setWithHeader,
-  setWithFooter,
-  onLogin,
-  errorMessage,
-  setErrorMessage,
-}) {
+function Login({ setWithHeader, setWithFooter, onLogin, errorMessage }) {
   const { values, errors, isValid, resetForm, handleChange } =
     useFormWithValidation();
   const submitErrorClassName = `form__submit-error form__submit-error_${
@@ -19,9 +13,8 @@ function Login({
   useEffect(() => {
     setWithHeader(false);
     setWithFooter(false);
-    setErrorMessage('');
     resetForm();
-  }, [setWithHeader, setWithFooter, setErrorMessage]);
+  }, [setWithHeader, setWithFooter]);
 
   function handleSubmit(e) {
     e.preventDefault();

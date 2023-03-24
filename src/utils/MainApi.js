@@ -3,7 +3,6 @@ const BASE_URL = 'http://localhost:3000';
 function getResponseData(res) {
   if (!res.ok) {
     return Promise.reject(`Ошибка: ${res.status}`);
-    // return Promise.reject(res);
   }
   return res.json();
 }
@@ -63,11 +62,48 @@ export function editUserInfo({ name, email }) {
   }).then((res) => getResponseData(res));
 }
 
-export function saveMovie() {
+export function saveMovie({
+  country,
+  director,
+  duration,
+  year,
+  description,
+  image,
+  trailer,
+  nameRU,
+  nameEN,
+  thumbnail,
+  movieId,
+}) {
   return fetch(`${BASE_URL}/movies`, {
     method: 'POST',
-    // credentials: 'include',
+    credentials: 'include',
     headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailer,
+      nameRU,
+      nameEN,
+      thumbnail,
+      movieId,
+    }),
+  }).then((res) => getResponseData(res));
+}
+
+export function getMovies() {
+  return fetch(`${BASE_URL}/movies`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
   }).then((res) => getResponseData(res));
@@ -76,7 +112,7 @@ export function saveMovie() {
 export function deleteMovie(movieId) {
   return fetch(`${BASE_URL}/movies/${movieId}`, {
     method: 'DELETE',
-    // credentials: 'include',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },

@@ -1,44 +1,74 @@
 import SearchForm from './SearchForm/SearchForm';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import More from './More/More';
-import { useEffect, useState } from 'react';
-import { moviesApi } from '../../utils/MoviesApi';
+import { useEffect } from 'react';
+import Preloader from './Preloader/Preloader';
+import ServerErrorTooltip from '../ServerErrorTooltip/ServerErrorTooltip';
+import NothingFoundTooltip from '../NothingFoundTooltip/NothingFoundTooltip';
 
-function Movies({ setWithHeader, setWithFooter, isLoggedIn }) {
-  const [count, setCount] = useState(16);
-  const [movies, setMovies] = useState([]);
-  const [cards, setCards] = useState([]);
-  const notEmpty = cards.length < movies.length;
-  // console.log(cards.length < movies.length, cards.length, movies.length);
-  // console.log(movies);
-
-  function handleLoadMore() {
-    setCards([...cards, ...movies.slice(count, count + 4)]);
-    setCount((count) => count + 4);
-  }
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      moviesApi
-        .getMovies()
-        .then((movies) => {
-          setMovies(movies.slice(0, 20));
-          setCards(movies.slice(0, 16));
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [isLoggedIn]);
-
+function Movies({
+  setWithHeader,
+  setWithFooter,
+  keyword,
+  setKeyword,
+  count,
+  movies,
+  setMovies,
+  isMovieShort,
+  setIsMovieShort,
+  onSumbitSearchForm,
+  onLikeMovie,
+  onDeleteMovie,
+  isKeywordTooltipOpened,
+  isPreloaderRender,
+  isNothingFound,
+  setIsNothingFound,
+  isServerError,
+  onLoadMore,
+  isEmpty,
+}) {
   useEffect(() => {
     setWithHeader(true);
     setWithFooter(true);
-  }, [setWithHeader, setWithFooter]);
+    const isShort = Boolean(JSON.parse(localStorage.getItem('isShort')));
+    const keyword = localStorage.getItem('keyword');
+    const movies = JSON.parse(localStorage.getItem('movies')) || [];
+
+    setIsMovieShort(isShort);
+    setKeyword(keyword);
+    setMovies(movies.slice(0, count === 5 ? count : count * 4));
+    if (keyword && movies.length === 0) setIsNothingFound(true);
+  }, []);
+
+  function handleChangeKeyWord(e) {
+    setKeyword(e.target.value);
+  }
+
+  function handleChangeCheckbox(e) {
+    setIsMovieShort(e.target.checked);
+  }
 
   return (
     <main className='movies'>
-      <SearchForm />
-      <MoviesCardList cards={cards} />
-      <More notEmpty={notEmpty} onLoadMore={handleLoadMore} />
+      <SearchForm
+        keyword={keyword}
+        setKeyword={setKeyword}
+        onChangeKeyword={handleChangeKeyWord}
+        onSubmitForm={onSumbitSearchForm}
+        isKeywordTooltipOpened={isKeywordTooltipOpened}
+        isMovieShort={isMovieShort}
+        onChangeCheckbox={handleChangeCheckbox}
+      />
+      {isServerError && <ServerErrorTooltip />}
+      {isPreloaderRender && <Preloader />}
+      {isNothingFound && <NothingFoundTooltip />}
+      <MoviesCardList
+        movies={movies}
+        onLikeMovie={onLikeMovie}
+        onDeleteMovie={onDeleteMovie}
+        isNothingFound={isNothingFound}
+      />
+      <More isEmpty={isEmpty} onLoadMore={onLoadMore} />
     </main>
   );
 }

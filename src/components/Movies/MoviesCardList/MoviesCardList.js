@@ -1,24 +1,14 @@
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-// import { links } from '../../../utils/MovieContent.js';
-// import { movieTitles } from '../../../utils/MovieContent.js';
-
-// let movies = movieTitles.map((title) => ({ title }));
-// movies.forEach((movie, i) => {
-//   movie['link'] = links[i];
-// });
-
-function MoviesCardList({ cards }) {
-  // console.log(cards);
+function MoviesCardList({ movies, onLikeMovie, onDeleteMovie }) {
   return (
     <section className='cards'>
-      {cards.map((card) => (
+      {movies.map((movie) => (
         <MoviesCard
-          key={card.id}
-          title={card.nameRU}
-          image={card.image}
-          duration={card.duration}
-          trailerLink={card.trailerLink}
+          key={movie.id || movie.movieId}
+          movie={movie}
+          onLikeMovie={onLikeMovie}
+          onDeleteMovie={onDeleteMovie}
         />
       ))}
     </section>
