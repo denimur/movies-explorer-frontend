@@ -22,6 +22,7 @@ function EditProfilePopup({
               minLength={2}
               onChange={handleChange}
               required
+              pattern='^[A-za-zА-яа-яЁё][A-za-zА-яа-яЁё\s\-]+[A-za-zА-яа-яЁё]$'
             />
             <div
               className={`section-line section-line_color_${

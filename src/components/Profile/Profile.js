@@ -15,7 +15,7 @@ function Profile({ setWithFooter, onLogout, onUpdate }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(values);
+
     if (values.name !== user.name || values.email !== user.email) {
       onUpdate(values.name, values.email);
       closePopup();

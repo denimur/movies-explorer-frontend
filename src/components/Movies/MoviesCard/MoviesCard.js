@@ -3,7 +3,7 @@ import { formatTime } from '../../../utils/Helper';
 
 function MoviesCard({ movie, onLikeMovie, onDeleteMovie }) {
   const BASE_URL = moviesApi._url;
-  const { image, duration, nameRU: title, trailerLink, trailer, owner } = movie;
+  const { image, duration, nameRU: title, trailerLink, owner } = movie;
   const isLiked = owner ? true : false;
   const btnClassName = `card__button card__like-button${
     isLiked ? '_active' : ''
@@ -17,7 +17,7 @@ function MoviesCard({ movie, onLikeMovie, onDeleteMovie }) {
     <article className='card'>
       <a
         className='card__link'
-        href={trailerLink || trailer}
+        href={trailerLink}
         target='_blank'
         rel='noreferrer'
         title='watch the trailer on youtube'

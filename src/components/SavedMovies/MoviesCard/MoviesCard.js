@@ -1,7 +1,7 @@
 import { formatTime } from '../../../utils/Helper';
 
 function MoviesCard({ movie, onDeleteMovie }) {
-  const { image, nameRU, duration, trailer } = movie;
+  const { image, nameRU, duration, trailerLink } = movie;
 
   function handleDeleteMovie() {
     onDeleteMovie(movie._id);
@@ -10,7 +10,7 @@ function MoviesCard({ movie, onDeleteMovie }) {
     <article className='card'>
       <a
         className='card__link'
-        href={trailer}
+        href={trailerLink}
         target='_blank'
         rel='noreferrer'
         title='watch the trailer on youtube'
