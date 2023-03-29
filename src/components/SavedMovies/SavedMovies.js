@@ -25,7 +25,12 @@ function SavedMovies({
   }, []);
 
   function handleChangeCheckbox(e) {
-    setIsMovieShort(e.target.checked);
+    const checked = e.target.checked;
+    const savedMovies = JSON.parse(localStorage.getItem('saved-movies')) || [];
+    setIsMovieShort(checked);
+    const data = getFilteredData(savedMovies, keyword, checked);
+    setSavedMovies(data);
+    data.length === 0 ? setIsNothingFound(true) : setIsNothingFound(false);
   }
 
   function handleChangeKeyWord(e) {

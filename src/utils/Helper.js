@@ -6,7 +6,7 @@ export function getLowerCaseTitle(title) {
 
 export function getFilteredData(movies, keyword, isShort) {
   return movies
-    .filter((m) => (isShort ? m.duration < 41 : m.duration > 40))
+    .filter((m) => (isShort ? m.duration < 41 : m))
     .filter((m) => getLowerCaseTitle(m.nameRU).includes(keyword.toLowerCase()));
 }
 

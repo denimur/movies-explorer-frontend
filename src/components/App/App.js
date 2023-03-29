@@ -46,10 +46,13 @@ function App() {
   const [isNothingFound, setIsNothingFound] = useState(false);
   const [isServerError, setIsServerError] = useState(false);
   let [isMenuOpened, setIsMenuOpened] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
   const navigate = useNavigate();
-  const isEmpty =
-    (JSON.parse(localStorage.getItem('movies')) || []).length === movies.length;
-  let prevCount = movies.length;
+
+  useEffect(() => {
+    const m = JSON.parse(localStorage.getItem('movies')) || [];
+    m.length > movies.length ? setIsEmpty(false) : setIsEmpty(true);
+  }, [movies]);
 
   useEffect(() => {
     mainApi
@@ -80,8 +83,23 @@ function App() {
     }, 1000);
   };
 
+  function handleChangeCheckbox(e) {
+    const checked = e.target.checked;
+    setIsMovieShort(checked);
+    const movies = JSON.parse(localStorage.getItem('initial-movies')) || [];
+    const keyword = localStorage.getItem('keyword');
+
+    const filteredMovies = getFilteredData(movies, keyword, checked);
+    localStorage.setItem('movies', JSON.stringify(filteredMovies));
+    setMovies(filteredMovies.slice(0, count === 5 ? count : count * 4));
+    filteredMovies.length === 0 && movies.length !== 0
+      ? setIsNothingFound(true)
+      : setIsNothingFound(false);
+  }
+
   function handleLoadMore() {
-    const m = JSON.parse(localStorage.getItem('movies'));
+    const m = JSON.parse(localStorage.getItem('movies')) || [];
+    let prevCount = movies.length;
     setMovies([...movies, ...m.slice(prevCount, prevCount + count)]);
   }
 
@@ -184,10 +202,9 @@ function App() {
           }
         })
         .catch((err) => {
-          if (err) {
-            setIsServerError(true);
-            setMovies([]);
-          }
+          setIsServerError(true);
+          setMovies([]);
+          console.log(err);
         })
         .finally(() => {
           setIsPreloaderRender(false);
@@ -367,6 +384,7 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   setWithHeader={setWithHeader}
                   setWithFooter={setWithFooter}
+                  onChangeCheckbox={handleChangeCheckbox}
                   onSumbitSearchForm={handleSubmitSearchForm}
                   isKeywordTooltipOpened={isKeywordTooltipOpened}
                   isPreloaderRender={isPreloaderRender}

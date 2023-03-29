@@ -26,6 +26,7 @@ function Movies({
   isServerError,
   onLoadMore,
   isEmpty,
+  onChangeCheckbox,
 }) {
   useEffect(() => {
     setWithHeader(true);
@@ -44,10 +45,6 @@ function Movies({
     setKeyword(e.target.value);
   }
 
-  function handleChangeCheckbox(e) {
-    setIsMovieShort(e.target.checked);
-  }
-
   return (
     <main className='movies'>
       <SearchForm
@@ -57,7 +54,7 @@ function Movies({
         onSubmitForm={onSumbitSearchForm}
         isKeywordTooltipOpened={isKeywordTooltipOpened}
         isMovieShort={isMovieShort}
-        onChangeCheckbox={handleChangeCheckbox}
+        onChangeCheckbox={onChangeCheckbox}
       />
       {isServerError && <ServerErrorTooltip />}
       {isPreloaderRender && <Preloader />}
