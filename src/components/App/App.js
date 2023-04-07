@@ -90,7 +90,7 @@ function App() {
     const keyword = localStorage.getItem('keyword');
 
     const filteredMovies = getFilteredData(movies, keyword, checked);
-    localStorage.setItem('movies', JSON.stringify(filteredMovies));
+    setLocalStorage(filteredMovies, keyword, checked);
     setMovies(filteredMovies.slice(0, count === 5 ? count : count * 4));
     filteredMovies.length === 0 && movies.length !== 0
       ? setIsNothingFound(true)
