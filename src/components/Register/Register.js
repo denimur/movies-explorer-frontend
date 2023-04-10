@@ -23,7 +23,8 @@ function Register({
     setWithHeader(false);
     setWithFooter(false);
     setErrorMessage('');
-  }, [setWithHeader, setWithFooter, setErrorMessage]);
+    resetForm();
+  }, [setWithHeader, setWithFooter, setErrorMessage, resetForm]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -31,7 +32,6 @@ function Register({
       return;
     }
     onRegister(name, email, password);
-    resetForm();
   }
 
   return (
@@ -67,6 +67,7 @@ function Register({
             name='email'
             onChange={handleChange}
             required
+            pattern='.+@.+\...+'
           />
           <div
             className={`section-line section-line_color_${

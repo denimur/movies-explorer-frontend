@@ -14,7 +14,7 @@ function Login({ setWithHeader, setWithFooter, onLogin, errorMessage }) {
     setWithHeader(false);
     setWithFooter(false);
     resetForm();
-  }, [setWithHeader, setWithFooter]);
+  }, [setWithHeader, setWithFooter, resetForm]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -44,6 +44,7 @@ function Login({ setWithHeader, setWithFooter, onLogin, errorMessage }) {
             type='email'
             onInput={handleChange}
             required
+            pattern='.+@.+\...+'
           />
           <div
             className={`section-line section-line_color_${

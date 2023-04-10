@@ -114,8 +114,9 @@ function App() {
         handleLogin(email, password);
       })
       .catch((err) => {
-        setErrorMessage(getAuthMessage(err));
         console.log(err);
+        setErrorMessage(getAuthMessage(err));
+        setTimeout(() => setErrorMessage(''), 2000);
       });
   }
 
@@ -128,7 +129,9 @@ function App() {
         navigate('/movies');
       })
       .catch((err) => {
+        console.log(err);
         setErrorMessage(getAuthMessage(err));
+        setTimeout(() => setErrorMessage(''), 2000);
       });
   }
 
