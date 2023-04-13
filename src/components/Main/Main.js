@@ -12,13 +12,13 @@ function Main({ setWithHeader, setWithFooter }) {
   }, [setWithHeader, setWithFooter]);
 
   return (
-    <main className='content'>
+    <>
       <Promo />
       <AboutProject />
       <Techs />
       <AboutMe />
       <Porfolio />
-    </main>
+    </>
   );
 }
 

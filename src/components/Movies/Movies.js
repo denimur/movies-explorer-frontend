@@ -46,7 +46,7 @@ function Movies({
   }
 
   return (
-    <main className='movies'>
+    <section className='movies'>
       <SearchForm
         keyword={keyword}
         setKeyword={setKeyword}
@@ -66,7 +66,7 @@ function Movies({
         isNothingFound={isNothingFound}
       />
       <More isEmpty={isEmpty} onLoadMore={onLoadMore} />
-    </main>
+    </section>
   );
 }
 
