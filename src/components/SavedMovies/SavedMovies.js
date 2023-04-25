@@ -21,8 +21,12 @@ function SavedMovies({
   useEffect(() => {
     setIsLoggedIn(true);
     setWithFooter(true);
-    setIsMovieShort(JSON.parse(localStorage.getItem('isSavedMovieShort')));
-    setSavedMovies(JSON.parse(localStorage.getItem('saved-movies')) || []);
+    const savedMovies = JSON.parse(localStorage.getItem('saved-movies')) || [];
+    const isSavedMovieShort = JSON.parse(
+      localStorage.getItem('isSavedMovieShort')
+    );
+    setIsMovieShort(isSavedMovieShort);
+    setSavedMovies(getFilteredData(savedMovies, keyword, isSavedMovieShort));
   }, []);
 
   function handleChangeCheckbox(e) {
