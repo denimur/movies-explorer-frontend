@@ -17,7 +17,7 @@ export function setLocalStorage(...args) {
     } else if (typeof arg === 'string') {
       localStorage.setItem('keyword', arg);
     } else {
-      localStorage.setItem('movies', JSON.stringify(arg));
+      localStorage.setItem('found-movies', JSON.stringify(arg));
     }
   }
 }
@@ -45,4 +45,13 @@ export function formatTime(duration) {
   }${
     minutes > 0 && hours > 0 ? 'м' : minutes > 0 && hours === 0 ? ' мин' : ''
   }`;
+}
+
+export function replaceMovies(movies, savedMovies) {
+  const savedMoviesIds = savedMovies.map((m) => m.movieId);
+  return movies.map((m) =>
+    savedMoviesIds.includes(m.id)
+      ? savedMovies[savedMoviesIds.indexOf(m.id)]
+      : m
+  );
 }
