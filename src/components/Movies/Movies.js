@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import Preloader from './Preloader/Preloader';
 import ServerErrorTooltip from '../ServerErrorTooltip/ServerErrorTooltip';
 import NothingFoundTooltip from '../NothingFoundTooltip/NothingFoundTooltip';
+import { getFilteredData } from '../../utils/Helper';
 
 function Movies({
   setWithHeader,
@@ -34,10 +35,10 @@ function Movies({
     const isShort = Boolean(JSON.parse(localStorage.getItem('isShort')));
     const keyword = localStorage.getItem('keyword');
     const movies = JSON.parse(localStorage.getItem('movies')) || [];
-
+    const foundMovies = getFilteredData(movies, keyword, isShort);
     setIsMovieShort(isShort);
     setKeyword(keyword);
-    setMovies(movies.slice(0, count === 5 ? count : count * 4));
+    setMovies(foundMovies.slice(0, count === 5 ? count : count * 4));
     if (keyword && movies.length === 0) setIsNothingFound(true);
   }, []);
 

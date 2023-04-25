@@ -25,6 +25,7 @@ import {
   countByWindowWidth,
   setLocalStorage,
   getFilteredData,
+  replaceMovies,
 } from '../../utils/Helper';
 
 function App() {
@@ -50,7 +51,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const m = JSON.parse(localStorage.getItem('movies')) || [];
+    const m = JSON.parse(localStorage.getItem('found-movies')) || [];
     m.length > movies.length ? setIsEmpty(false) : setIsEmpty(true);
   }, [movies]);
 
@@ -86,7 +87,7 @@ function App() {
   function handleChangeCheckbox(e) {
     const checked = e.target.checked;
     setIsMovieShort(checked);
-    const movies = JSON.parse(localStorage.getItem('initial-movies')) || [];
+    const movies = JSON.parse(localStorage.getItem('movies')) || [];
     const keyword = localStorage.getItem('keyword');
 
     const filteredMovies = getFilteredData(movies, keyword, checked);
@@ -98,7 +99,7 @@ function App() {
   }
 
   function handleLoadMore() {
-    const m = JSON.parse(localStorage.getItem('movies')) || [];
+    const m = JSON.parse(localStorage.getItem('found-movies')) || [];
     let prevCount = movies.length;
     setMovies([...movies, ...m.slice(prevCount, prevCount + count)]);
   }
@@ -174,31 +175,24 @@ function App() {
         .getMovies()
         .then((movies) => {
           localStorage.setItem('initial-movies', JSON.stringify(movies));
+          // заменим объекты типа {id: Number} на {_id: String}
+          const replacedMovies = replaceMovies(movies, savedMovies);
+          localStorage.setItem('movies', JSON.stringify(replacedMovies));
           // фильтруем все фильмы из БД по слову и длине
-          const foundMovies = getFilteredData(movies, keyword, isMovieShort);
+          const foundMovies = getFilteredData(
+            replacedMovies,
+            keyword,
+            isMovieShort
+          );
           if (foundMovies.length < 1) {
             setIsNothingFound(true);
             setLocalStorage(foundMovies, keyword, isMovieShort);
             setMovies([]);
           } else {
             setIsNothingFound(false);
-            // id сохраненных фильмов
-            const ids = savedMovies.map((m) => m.movieId);
-            // id найденных фильмов
-            const foundIds = foundMovies.map((m) => m.id);
-            // получить 2 массива: фильмы по поиску и сохраненные
-            // найти совпадения в 2-х массивах
-            const matchedMovies = savedMovies.filter((m) =>
-              foundIds.includes(m.movieId)
-            );
-            // в массиве по поиску заменить совпадения
-            const notMatchedMovies = foundMovies.filter(
-              (m) => !ids.includes(m.id)
-            );
-            const moviesToRender = [...matchedMovies, ...notMatchedMovies];
             setCount(countByWindowWidth(document.documentElement.clientWidth));
-            setLocalStorage(moviesToRender, keyword, isMovieShort);
-            setMovies(moviesToRender.slice(0, count === 5 ? count : count * 4));
+            setLocalStorage(foundMovies, keyword, isMovieShort);
+            setMovies(foundMovies.slice(0, count === 5 ? count : count * 4));
           }
         })
         .catch((err) => {
