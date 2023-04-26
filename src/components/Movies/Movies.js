@@ -6,13 +6,14 @@ import Preloader from './Preloader/Preloader';
 import ServerErrorTooltip from '../ServerErrorTooltip/ServerErrorTooltip';
 import NothingFoundTooltip from '../NothingFoundTooltip/NothingFoundTooltip';
 import { getFilteredData } from '../../utils/Helper';
+import { NUMBER_OF_ROWS } from '../../utils/constants';
 
 function Movies({
   setWithHeader,
   setWithFooter,
   keyword,
   setKeyword,
-  count,
+  cardsCount,
   movies,
   setMovies,
   isMovieShort,
@@ -38,7 +39,12 @@ function Movies({
     const foundMovies = getFilteredData(movies, keyword, isShort);
     setIsMovieShort(isShort);
     setKeyword(keyword);
-    setMovies(foundMovies.slice(0, count === 5 ? count : count * 4));
+    setMovies(
+      foundMovies.slice(
+        0,
+        cardsCount === 5 ? cardsCount : cardsCount * NUMBER_OF_ROWS
+      )
+    );
     if (keyword && movies.length === 0) setIsNothingFound(true);
   }, []);
 

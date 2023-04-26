@@ -1,3 +1,11 @@
+import {
+  SHORT_MOVIE_DURATION,
+  CARDS_NUMBER_DESKTOP,
+  CARDS_NUMBER_NOTEBOOK,
+  CARDS_NUMBER_TABLET,
+  CARDS_NUMBER_MOBILE,
+} from './constants';
+
 export function getLowerCaseTitle(title) {
   const lowerCaseWords = [];
   title.split(' ').forEach((w) => lowerCaseWords.push(w.toLowerCase()));
@@ -6,7 +14,7 @@ export function getLowerCaseTitle(title) {
 
 export function getFilteredData(movies, keyword, isShort) {
   return movies
-    .filter((m) => (isShort ? m.duration < 41 : m))
+    .filter((m) => (isShort ? m.duration <= SHORT_MOVIE_DURATION : m))
     .filter((m) => getLowerCaseTitle(m.nameRU).includes(keyword.toLowerCase()));
 }
 
@@ -24,16 +32,16 @@ export function setLocalStorage(...args) {
 
 export function countByWindowWidth(width) {
   if (width >= 320 && width < 768) {
-    return 5;
+    return CARDS_NUMBER_MOBILE;
   }
   if (width >= 768 && width <= 1100) {
-    return 2;
+    return CARDS_NUMBER_TABLET;
   }
   if (width > 1100 && width < 1280) {
-    return 3;
+    return CARDS_NUMBER_NOTEBOOK;
   }
   if (width >= 1280 && width < 2560) {
-    return 4;
+    return CARDS_NUMBER_DESKTOP;
   }
 }
 

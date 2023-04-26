@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import './App.css';
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute';
 import Movies from './../Movies/Movies';
@@ -27,6 +27,7 @@ import {
   getFilteredData,
   replaceMovies,
 } from '../../utils/Helper';
+import { NUMBER_OF_ROWS } from '../../utils/constants';
 
 function App() {
   const BASE_URL = moviesApi._url;
@@ -41,7 +42,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [savedMovies, setSavedMovies] = useState([]);
   const [movies, setMovies] = useState([]);
-  const [count, setCount] = useState(1);
+  const [cardsCount, setCardsCount] = useState(1);
   const [keyword, setKeyword] = useState('');
   const [isMovieShort, setIsMovieShort] = useState(true);
   const [isNothingFound, setIsNothingFound] = useState(false);
@@ -62,7 +63,7 @@ function App() {
         setIsLoggedIn(true);
         navigate('/movies');
         setCurrentUser(user);
-        setCount(countByWindowWidth(document.documentElement.clientWidth));
+        setCardsCount(countByWindowWidth(document.documentElement.clientWidth));
       })
       .catch((err) => {
         console.log(err);
@@ -80,7 +81,7 @@ function App() {
 
   window.onresize = () => {
     setTimeout(() => {
-      setCount(countByWindowWidth(document.documentElement.clientWidth));
+      setCardsCount(countByWindowWidth(document.documentElement.clientWidth));
     }, 1000);
   };
 
@@ -92,7 +93,12 @@ function App() {
 
     const filteredMovies = getFilteredData(movies, keyword, checked);
     setLocalStorage(filteredMovies, keyword, checked);
-    setMovies(filteredMovies.slice(0, count === 5 ? count : count * 4));
+    setMovies(
+      filteredMovies.slice(
+        0,
+        cardsCount === 5 ? cardsCount : cardsCount * NUMBER_OF_ROWS
+      )
+    );
     filteredMovies.length === 0 && movies.length !== 0
       ? setIsNothingFound(true)
       : setIsNothingFound(false);
@@ -101,7 +107,7 @@ function App() {
   function handleLoadMore() {
     const m = JSON.parse(localStorage.getItem('found-movies')) || [];
     let prevCount = movies.length;
-    setMovies([...movies, ...m.slice(prevCount, prevCount + count)]);
+    setMovies([...movies, ...m.slice(prevCount, prevCount + cardsCount)]);
   }
 
   function handleMenuClick() {
@@ -193,9 +199,16 @@ function App() {
             setMovies([]);
           } else {
             setIsNothingFound(false);
-            setCount(countByWindowWidth(document.documentElement.clientWidth));
+            setCardsCount(
+              countByWindowWidth(document.documentElement.clientWidth)
+            );
             setLocalStorage(foundMovies, keyword, isMovieShort);
-            setMovies(foundMovies.slice(0, count === 5 ? count : count * 4));
+            setMovies(
+              foundMovies.slice(
+                0,
+                cardsCount === 5 ? cardsCount : cardsCount * NUMBER_OF_ROWS
+              )
+            );
           }
         })
         .catch((err) => {
@@ -390,8 +403,8 @@ function App() {
                     setIsMovieShort={setIsMovieShort}
                     keyword={keyword}
                     setKeyword={setKeyword}
-                    count={count}
-                    setCount={setCount}
+                    cardsCount={cardsCount}
+                    setCardsCount={setCardsCount}
                     movies={movies}
                     setMovies={setMovies}
                     isNothingFound={isNothingFound}
