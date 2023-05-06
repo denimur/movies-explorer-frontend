@@ -44,7 +44,7 @@ function Login({ setWithHeader, setWithFooter, onLogin, errorMessage }) {
             type='email'
             onInput={handleChange}
             required
-            pattern='.+@.+\...+'
+            pattern='[^\s@]+@[a-zA-Z]+\.[a-z]{2,}'
           />
           <div
             className={`section-line section-line_color_${

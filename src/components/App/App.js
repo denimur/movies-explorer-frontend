@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute';
 import Movies from './../Movies/Movies';
@@ -50,20 +50,17 @@ function App() {
   let [isMenuOpened, setIsMenuOpened] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const m = JSON.parse(localStorage.getItem('found-movies')) || [];
-    m.length > movies.length ? setIsEmpty(false) : setIsEmpty(true);
-  }, [movies]);
+  const location = useLocation();
 
   useEffect(() => {
     mainApi
       .getCurrentUser()
       .then((user) => {
-        setIsLoggedIn(true);
-        navigate('/movies');
-        setCurrentUser(user);
-        setCardsCount(countByWindowWidth(document.documentElement.clientWidth));
+        if (user) {
+          setIsLoggedIn(true);
+          setCurrentUser(user);
+          navigate(`${location.pathname}`, { replace: true });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -71,9 +68,17 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const m = JSON.parse(localStorage.getItem('found-movies')) || [];
+    m.length > movies.length ? setIsEmpty(false) : setIsEmpty(true);
+  }, [movies]);
+
+  useEffect(() => {
+    setCardsCount(countByWindowWidth(document.documentElement.clientWidth));
+  }, [cardsCount]);
+
+  useEffect(() => {
     if (isLoggedIn) {
       mainApi.getMovies().then((movies) => {
-        setSavedMovies(movies.data);
         localStorage.setItem('saved-movies', JSON.stringify(movies.data));
       });
     }
@@ -82,7 +87,7 @@ function App() {
   window.onresize = () => {
     setTimeout(() => {
       setCardsCount(countByWindowWidth(document.documentElement.clientWidth));
-    }, 1000);
+    }, 500);
   };
 
   function handleChangeCheckbox(e) {
@@ -185,6 +190,7 @@ function App() {
         .then((movies) => {
           localStorage.setItem('initial-movies', JSON.stringify(movies));
           // заменим объекты типа {id: Number} на {_id: String}
+          const savedMovies = JSON.parse(localStorage.getItem('saved-movies'));
           const replacedMovies = replaceMovies(movies, savedMovies);
           localStorage.setItem('movies', JSON.stringify(replacedMovies));
           // фильтруем все фильмы из БД по слову и длине
@@ -342,43 +348,6 @@ function App() {
         <main className='content'>
           <Routes>
             <Route
-              path='/*'
-              element={
-                <NotFound
-                  setWithFooter={setWithFooter}
-                  setWithHeader={setWithHeader}
-                />
-              }
-            />
-            <Route
-              path='/signin'
-              element={
-                <Login
-                  setWithFooter={setWithFooter}
-                  setWithHeader={setWithHeader}
-                  onLogin={handleLogin}
-                  errorMessage={errorMessage}
-                  setErrorMessage={setErrorMessage}
-                  isFailTooltipOpen={isFailTooltipOpen}
-                  setIsFailTooltipOpen={setIsFailTooltipOpen}
-                />
-              }
-            />
-            <Route
-              path='/signup'
-              element={
-                <Register
-                  setWithFooter={setWithFooter}
-                  setWithHeader={setWithHeader}
-                  onRegister={handleRegister}
-                  errorMessage={errorMessage}
-                  setErrorMessage={setErrorMessage}
-                  isFailTooltipOpen={isFailTooltipOpen}
-                  setIsFailTooltipOpen={setIsFailTooltipOpen}
-                />
-              }
-            />
-            <Route
               path='/'
               element={
                 <Main
@@ -423,11 +392,11 @@ function App() {
               element={
                 <ProtectedRouteElement isLoggedIn={isLoggedIn}>
                   <SavedMovies
+                    isLoggedIn={isLoggedIn}
                     setIsLoggedIn={setIsLoggedIn}
+                    setWithHeader={setWithHeader}
                     setWithFooter={setWithFooter}
                     onDeleteMovie={handleDeleteMovie}
-                    isMovieShort={isMovieShort}
-                    setIsMovieShort={setIsMovieShort}
                     savedMovies={savedMovies}
                     setSavedMovies={setSavedMovies}
                     isNothingFound={isNothingFound}
@@ -441,11 +410,49 @@ function App() {
               element={
                 <ProtectedRouteElement isLoggedIn={isLoggedIn}>
                   <Profile
+                    setWithHeader={setWithHeader}
                     setWithFooter={setWithFooter}
                     onLogout={handleLogout}
                     onUpdate={handleUpdateProfile}
                   />
                 </ProtectedRouteElement>
+              }
+            />
+            <Route
+              path='/signin'
+              element={
+                <Login
+                  setWithFooter={setWithFooter}
+                  setWithHeader={setWithHeader}
+                  onLogin={handleLogin}
+                  errorMessage={errorMessage}
+                  setErrorMessage={setErrorMessage}
+                  isFailTooltipOpen={isFailTooltipOpen}
+                  setIsFailTooltipOpen={setIsFailTooltipOpen}
+                />
+              }
+            />
+            <Route
+              path='/signup'
+              element={
+                <Register
+                  setWithFooter={setWithFooter}
+                  setWithHeader={setWithHeader}
+                  onRegister={handleRegister}
+                  errorMessage={errorMessage}
+                  setErrorMessage={setErrorMessage}
+                  isFailTooltipOpen={isFailTooltipOpen}
+                  setIsFailTooltipOpen={setIsFailTooltipOpen}
+                />
+              }
+            />
+            <Route
+              path='/*'
+              element={
+                <NotFound
+                  setWithFooter={setWithFooter}
+                  setWithHeader={setWithHeader}
+                />
               }
             />
           </Routes>

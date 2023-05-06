@@ -6,6 +6,7 @@ function EditProfilePopup({
   errors,
   values,
   handleChange,
+  isDataMatched,
 }) {
   return (
     <div className={`popup ${isOpen ? 'popup_opened' : ''}`}>
@@ -22,7 +23,7 @@ function EditProfilePopup({
               minLength={2}
               onChange={handleChange}
               required
-              pattern='^[A-za-zА-яа-яЁё][A-za-zА-яа-яЁё\s\-]+[A-za-zА-яа-яЁё]$'
+              pattern='[A-za-zА-яа-яЁё\s\-]+'
             />
             <div
               className={`section-line section-line_color_${
@@ -42,6 +43,7 @@ function EditProfilePopup({
               value={values.email || ''}
               onChange={handleChange}
               required
+              pattern='[^\s@]+@[a-zA-Z]+\.[a-z]{2,}'
             />
             <div
               className={`section-line section-line_color_${
@@ -55,10 +57,12 @@ function EditProfilePopup({
           <fieldset className='form__handlers form__handlers_place_profile'>
             <button
               className={`form__button form__button_type_submit ${
-                !isValid ? 'form__button_type_submit_disabled' : ''
+                isDataMatched || !isValid
+                  ? 'form__button_type_submit_disabled'
+                  : ''
               }`}
               type='submit'
-              disabled={isValid ? false : true}
+              disabled={!isValid || isDataMatched}
             >
               Сохранить
             </button>

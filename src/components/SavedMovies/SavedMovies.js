@@ -6,27 +6,26 @@ import { getFilteredData } from '../../utils/Helper';
 import NothingFoundTooltip from '../NothingFoundTooltip/NothingFoundTooltip';
 
 function SavedMovies({
-  setIsLoggedIn,
+  setWithHeader,
   setWithFooter,
   savedMovies,
   setSavedMovies,
   onDeleteMovie,
-  isMovieShort,
-  setIsMovieShort,
 }) {
   const [keyword, setKeyword] = useState('');
   const [isNothingFound, setIsNothingFound] = useState(false);
   const [isKeywordTooltipOpened, setIsKeywordTooltipOpened] = useState(false);
+  const [isMovieShort, setIsMovieShort] = useState(false);
 
   useEffect(() => {
-    setIsLoggedIn(true);
+    setWithHeader(true);
     setWithFooter(true);
-    const savedMovies = JSON.parse(localStorage.getItem('saved-movies')) || [];
-    const isSavedMovieShort = JSON.parse(
-      localStorage.getItem('isSavedMovieShort')
+    const movies = JSON.parse(localStorage.getItem('saved-movies')) || [];
+    const isShort = Boolean(
+      JSON.parse(localStorage.getItem('isSavedMovieShort'))
     );
-    setIsMovieShort(isSavedMovieShort);
-    setSavedMovies(getFilteredData(savedMovies, keyword, isSavedMovieShort));
+    setIsMovieShort(isShort);
+    setSavedMovies(getFilteredData(movies, keyword, isShort));
   }, []);
 
   function handleChangeCheckbox(e) {

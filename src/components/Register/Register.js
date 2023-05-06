@@ -46,9 +46,10 @@ function Register({
             type='text'
             name='name'
             minLength={2}
+            maxLength={30}
             onChange={handleChange}
             required
-            pattern='^[A-za-zА-яа-яЁё][A-za-zА-яа-яЁё\s\-]+[A-za-zА-яа-яЁё]$'
+            pattern='[A-za-zА-яа-яЁё\s\-]+'
           />
           <div
             className={`section-line section-line_color_${
@@ -67,7 +68,7 @@ function Register({
             name='email'
             onChange={handleChange}
             required
-            pattern='.+@.+\...+'
+            pattern='[^\s@]+@[a-zA-Z]+\.[a-z]{2,}'
           />
           <div
             className={`section-line section-line_color_${

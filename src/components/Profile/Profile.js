@@ -3,20 +3,23 @@ import { CurrentUserContext } from './../../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup';
 import { useFormWithValidation } from '../FormValidator/FormValidator';
 
-function Profile({ setWithFooter, onLogout, onUpdate }) {
+function Profile({ setWithHeader, setWithFooter, onLogout, onUpdate }) {
   const user = useContext(CurrentUserContext);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const { values, errors, isValid, resetForm, handleChange } =
     useFormWithValidation();
+  const isDataMatched =
+    values.name === user.name && values.email === user.email;
 
   useEffect(() => {
+    setWithHeader(true);
     setWithFooter(false);
-  }, [setWithFooter]);
+  }, [setWithHeader, setWithFooter]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (values.name !== user.name || values.email !== user.email) {
+    if (!isDataMatched) {
       onUpdate(values.name, values.email);
       closePopup();
     } else {
@@ -67,6 +70,7 @@ function Profile({ setWithFooter, onLogout, onUpdate }) {
         isValid={isValid}
         handleChange={handleChange}
         values={values}
+        isDataMatched={isDataMatched}
       />
     </section>
   );
