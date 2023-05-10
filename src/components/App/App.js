@@ -33,6 +33,7 @@ function App() {
   const BASE_URL = moviesApi._url;
   const [isFailTooltipOpen, setIsFailTooltipOpen] = useState(false);
   const [isSuccessTooltipOpen, setIsSuccessTooltipOpen] = useState(false);
+  const [isErrorTooltipOpen, setIsErrorTooltipOpen] = useState(false);
   const [isPreloaderRender, setIsPreloaderRender] = useState(false);
   const [isKeywordTooltipOpened, setIsKeywordTooltipOpened] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -166,12 +167,18 @@ function App() {
         setCurrentUser(user);
         setIsSuccessTooltipOpen(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setIsErrorTooltipOpen(true);
+        setErrorMessage(getAuthMessage(err));
+        console.log(err);
+      });
   }
 
   function closeTooltip() {
     setIsFailTooltipOpen(false);
     setIsSuccessTooltipOpen(false);
+    setIsErrorTooltipOpen(false);
+    setErrorMessage('');
   }
 
   // сохраняем все фильмы в хранилище
@@ -310,7 +317,7 @@ function App() {
         const initialItem = initialMovies.find(
           (m) => m.id === deletedMovie.movieId
         );
-        const movies = JSON.parse(localStorage.getItem('movies'));
+        const movies = JSON.parse(localStorage.getItem('movies')) || [];
         localStorage.setItem(
           'movies',
           JSON.stringify(movies.map(replaceMovie))
@@ -469,6 +476,12 @@ function App() {
           isOpen={isFailTooltipOpen}
           onClose={closeTooltip}
           text='Что-то пошло не так'
+        />
+        <Tooltip
+          success={false}
+          isOpen={isErrorTooltipOpen}
+          onClose={closeTooltip}
+          text={errorMessage}
         />
       </div>
     </CurrentUserContext.Provider>
