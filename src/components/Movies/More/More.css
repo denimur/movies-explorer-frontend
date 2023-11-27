@@ -21,7 +21,7 @@
 }
 
 .more__button_disabled {
-	color: #e8e8e8;
+	display: none;
 }
 
 .more__button:hover {

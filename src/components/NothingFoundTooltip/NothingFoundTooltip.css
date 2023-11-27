@@ -1,0 +1,28 @@
+.nothing-found {
+	padding: 70px 70px 0;
+	min-height: 222px;
+	box-sizing: border-box;
+}
+
+.nothing-found__text {
+	margin: 0;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.22;
+}
+
+@media (max-width: 874px) {
+	.nothing-found {
+		padding: 50px 30px 0;
+	}
+}
+
+@media (max-width: 767px) {
+	.nothing-found {
+		padding: 50px 10px 0;
+	}
+	.nothing-found__text {
+		font-size: 13px;
+	}
+}

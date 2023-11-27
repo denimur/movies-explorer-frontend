@@ -1,0 +1,29 @@
+.server-error {
+	padding: 70px 70px 0;
+	min-height: 222px;
+	box-sizing: border-box;
+}
+
+.server-error__text {
+	margin: 0;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 1.22;
+	color: #ee3465;
+}
+
+@media (max-width: 874px) {
+	.server-error {
+		padding: 50px 30px 0;
+	}
+}
+
+@media (max-width: 767px) {
+	.server-error {
+		padding: 50px 10px 0;
+	}
+	.server-error__text {
+		font-size: 11px;
+	}
+}

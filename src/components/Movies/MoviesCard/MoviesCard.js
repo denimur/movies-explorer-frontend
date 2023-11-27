@@ -1,16 +1,43 @@
-function MoviesCard({ link, title }) {
+import { moviesApi } from '../../../utils/MoviesApi';
+import { formatTime } from '../../../utils/Helper';
+
+function MoviesCard({ movie, onLikeMovie, onDeleteMovie }) {
+  const BASE_URL = moviesApi._url;
+  const { image, duration, nameRU: title, trailerLink, owner } = movie;
+  const isLiked = owner ? true : false;
+  const btnClassName = `card__button card__like-button${
+    isLiked ? '_active' : ''
+  }`;
+
+  function handleCardLike() {
+    isLiked ? onDeleteMovie(movie._id) : onLikeMovie(movie);
+  }
+
   return (
     <article className='card'>
-      <img src={link} className='card__image' alt={title} />
+      <a
+        className='card__link'
+        href={trailerLink}
+        target='_blank'
+        rel='noreferrer'
+        title='watch the trailer on youtube'
+      >
+        <img
+          src={typeof image === 'object' ? `${BASE_URL}${image.url}` : image}
+          className='card__image'
+          alt={title}
+        />
+      </a>
       <div className='card-group'>
         <h2 className='card__title'>{title}</h2>
         <button
           type='button'
-          className='card__button card__like-button_active'
+          onClick={handleCardLike}
+          className={btnClassName}
         ></button>
       </div>
       <div className='section-line section-line_color_grey'></div>
-      <p className='card__duration'>1ч42м</p>
+      <p className='card__duration'>{formatTime(duration)}</p>
     </article>
   );
 }

@@ -1,18 +1,9 @@
-import MoviesCard from './../MoviesCard/MoviesCard';
-import { links } from '../../../utils/MovieContent';
-import { movieTitles } from '../../../utils/MovieContent';
+import MoviesCard from '../MoviesCard/MoviesCard';
 
-const savedMovies = movieTitles.slice(0, 3).map((title) => ({ title }));
-
-savedMovies.forEach((movie, i) => {
-  movie.link = links[i];
-});
-
-const movieCardList = savedMovies.map((movie, i) => (
-  <MoviesCard key={i} movie={movie} />
-));
-
-function MoviesCardList() {
+function MoviesCardList({ movies, onDeleteMovie }) {
+  const movieCardList = movies.map((movie, i) => (
+    <MoviesCard key={i} movie={movie} onDeleteMovie={onDeleteMovie} />
+  ));
   return <section className='cards cards_type_saved'>{movieCardList}</section>;
 }
 

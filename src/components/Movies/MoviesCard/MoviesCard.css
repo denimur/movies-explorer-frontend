@@ -5,6 +5,11 @@
 	margin-bottom: 10px;
 	object-fit: cover;
 	object-position: center;
+	transition: transform .3s ease-in-out;
+}
+
+.card__image:hover {
+	transform: scale(1.05);
 }
 
 .card-group {

@@ -16,4 +16,5 @@
 - обработать ошибки
 
 макет по ссылке https://disk.yandex.ru/d/OaALTq79TAue2A
-pull request https://github.com/denimur/movies-explorer-frontend/pull/2
+
+ссылка на сайт https://denimur-diploma.ru

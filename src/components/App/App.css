@@ -46,6 +46,10 @@
 	background-color: #e8e8e8;
 }
 
+.section-line_color_pink {
+  background-color: #ee3465;
+}
+
 .list {
 	padding: 0;
 	list-style: none;
